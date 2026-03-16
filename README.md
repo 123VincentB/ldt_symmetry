@@ -28,7 +28,7 @@ This library provides two tools:
 pip install eulumdat-symmetry
 ```
 
-Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 0.1.4 (`pyldt`).
+Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 1.0.0 (`pyldt`).
 
 ---
 

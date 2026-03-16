@@ -8,7 +8,7 @@ This example covers the three main use cases of `eulumdat-symmetry`.
 pip install eulumdat-symmetry
 ```
 
-Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 0.1.4 (`pyldt`).
+Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 1.0.0 (`pyldt`).
 
 ---
 
@@ -90,11 +90,11 @@ print(f"Threshold rot  : {diag['rot_score_threshold']}  (ISYM 1)")
 
 ### Reading the diagnostic
 
-| Key                   | Description                                                                 |
-| --------------------- | --------------------------------------------------------------------------- |
-| `isym_detected`       | Final result (0–4)                                                          |
-| `isym_candidate`      | Mode proposed by the shape analysis stage                                   |
-| `accepted`            | `True` if the candidate passed the score veto                               |
+| Key                   | Description                                                                |
+| --------------------- | -------------------------------------------------------------------------- |
+| `isym_detected`       | Final result (0–4)                                                         |
+| `isym_candidate`      | Mode proposed by the shape analysis stage                                  |
+| `accepted`            | `True` if the candidate passed the score veto                              |
 | `scores`              | Relative RMS asymmetry per mode `{1: float, 2: float, 3: float, 4: float}` |
 | `score_threshold`     | Veto threshold for ISYM 2/3/4 (default: 0.23)                              |
 | `rot_score_threshold` | Veto threshold for ISYM 1 (default: 0.20)                                  |

@@ -9,7 +9,7 @@ automatic detection, symmetrisation, and a CSV report of results.
 pip install eulumdat-symmetry
 ```
 
-Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 0.1.4 (`pyldt`).
+Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 1.0.0 (`pyldt`).
 
 ---
 
@@ -86,7 +86,7 @@ distribution is consistent with that symmetry.  See the
 `batch_report.csv` contains one row per file:
 
 | Column           | Description                                              |
-|------------------|----------------------------------------------------------|
+| ---------------- | -------------------------------------------------------- |
 | `file`           | Input filename                                           |
 | `isym_detected`  | Final detected ISYM (0–4)                                |
 | `isym_candidate` | ISYM proposed by the shape stage (before score veto)     |

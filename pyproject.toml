@@ -10,7 +10,7 @@ readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Vincent B.", email = "321soleil@gmail.com" }]
 requires-python = ">=3.10"
-dependencies = ["eulumdat-py>=0.1.4"]
+dependencies = ["eulumdat-py>=1.0.0"]
 
 keywords = ["eulumdat", "ldt", "photometry", "symmetry", "lighting"]
 classifiers = [
