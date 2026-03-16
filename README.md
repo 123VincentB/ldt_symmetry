@@ -1,4 +1,4 @@
-# ldt-symmetry
+# eulumdat-symmetry
 
 An extension to [pyldt](https://pypi.org/project/eulumdat-py/) for symmetrising EULUMDAT (`.ldt`) photometric files.
 
@@ -20,10 +20,10 @@ This library provides two tools:
 ## Installation
 
 ```bash
-pip install pyldt-symmetry
+pip install eulumdat-symmetry
 ```
 
-Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) (`pyldt`).
+Requires [eulumdat-py](https://pypi.org/project/eulumdat-py/) >= 0.1.4 (`pyldt`).
 
 ---
 
@@ -128,13 +128,20 @@ Detection runs in two stages:
 
 **Stage 1 — Shape analysis**
 
-The intensity distribution is projected onto the floor (γ < 90°) and ceiling (γ > 90°) planes. Weighted moments (centroid offset, ellipse anisotropy, principal axis orientation) and angular harmonics (H4 for quadrant detection) are computed for each hemisphere. A candidate mode is chosen by combining the decisions from both hemispheres.
+The intensity distribution is projected onto the floor (γ < 90°) and ceiling (γ > 90°) planes using the point-source illuminance formula E = I·cos³(γ)/d². Weighted moments (centroid offset, ellipse anisotropy, principal axis orientation) and angular harmonics (H4 for quadrant detection) are computed for each hemisphere. A candidate mode is chosen by combining the decisions from both hemispheres.
 
 **Stage 2 — Score veto**
 
 The relative RMS asymmetry is measured for the candidate mode. If the score exceeds the threshold, the candidate is rejected and ISYM 0 is returned. This prevents the shape stage from proposing a symmetric mode when the distribution is actually irregular.
 
 Both stages must agree for a mode to be accepted.
+
+### Validation
+
+The detection algorithm was validated on a dataset of 42 real manufacturer
+LDT files covering all five ISYM modes (0–4), selected for their
+representativeness from several hundred laboratory measurements.
+No misclassification was observed (42/42 correct).
 
 ---
 
@@ -167,14 +174,20 @@ ldt_symmetry/
 
 ## Relation to pyldt
 
-`ldt-symmetry` is an extension to `pyldt`, not a replacement. It operates on `pyldt.Ldt` objects and delegates all file I/O to `pyldt.LdtReader` and `pyldt.LdtWriter`.
+`eulumdat-symmetry` is an extension to `pyldt`, not a replacement. It operates on `pyldt.Ldt` objects and delegates all file I/O to `pyldt.LdtReader` and `pyldt.LdtWriter`.
 
 | Task | Tool |
 |------|------|
 | Read / write `.ldt` files | `pyldt` (`LdtReader`, `LdtWriter`) |
 | Edit header fields | `pyldt` (`LdtHeader`) |
-| Symmetrise the intensity distribution | `ldt-symmetry` (`LdtSymmetriser`) |
-| Detect the symmetry mode automatically | `ldt-symmetry` (`LdtAutoDetector`) |
+| Symmetrise the intensity distribution | `eulumdat-symmetry` (`LdtSymmetriser`) |
+| Detect the symmetry mode automatically | `eulumdat-symmetry` (`LdtAutoDetector`) |
+
+---
+
+## Source code
+
+[github.com/123VincentB/ldt_symmetry](https://github.com/123VincentB/ldt_symmetry)
 
 ---
 
