@@ -229,5 +229,9 @@ def main():
     return n_ko + n_err  # exit code non nul si échecs
 
 
+def test_auto_detector():
+    assert main() == 0, "Des fichiers KO ou en erreur détectés"
+
+
 if __name__ == "__main__":
     sys.exit(main())

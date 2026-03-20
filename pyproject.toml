@@ -28,8 +28,7 @@ classifiers = [
 Homepage = "https://github.com/123VincentB/eulumdat-symmetry"
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["ldt_symmetry*"]
+where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

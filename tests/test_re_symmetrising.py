@@ -17,8 +17,10 @@ Requiert : eulumdat-py >= 0.1.4
 
 Usage :
     python tests/test_re_symmetrising.py
+    pytest tests/test_re_symmetrising.py
 """
 
+import pytest
 from pathlib import Path
 
 from pyldt import LdtReader, LdtWriter
@@ -43,55 +45,60 @@ def max_abs_diff(mat1, mat2) -> float:
 
 # --- Test ------------------------------------------------------------------
 
-isym0_files = [
-    p for p in sorted(INPUT_DIR.glob("*.ldt"))
-    if int(LdtReader.read(p).header.isym) == 0
-]
+def test_re_symmetrising():
+    isym0_files = [
+        p for p in sorted(INPUT_DIR.glob("*.ldt"))
+        if int(LdtReader.read(p).header.isym) == 0
+    ]
 
-if not isym0_files:
-    print("Aucun fichier ISYM=0 trouvé dans data/input/ — test ignoré.")
-    exit(0)
+    if not isym0_files:
+        pytest.skip("Aucun fichier ISYM=0 trouvé dans data/input/")
 
-print(f"{len(isym0_files)} fichier(s) ISYM=0 trouvé(s).\n")
-print(f"{'Fichier':<35} {'ISYM':>5}  {'Max diff':>12}  {'Résultat'}")
-print("-" * 70)
+    print(f"{len(isym0_files)} fichier(s) ISYM=0 trouvé(s).\n")
+    print(f"{'Fichier':<35} {'ISYM':>5}  {'Max diff':>12}  {'Résultat'}")
+    print("-" * 70)
 
-ok = 0
-errors = 0
+    ok = 0
+    errors = 0
 
-for ldt_path in isym0_files:
-    ldt_orig = LdtReader.read(ldt_path)
+    for ldt_path in isym0_files:
+        ldt_orig = LdtReader.read(ldt_path)
 
-    for isym_target in [1, 2, 3, 4]:
-        try:
-            # Passe 1 : symétriser
-            ldt_sym1 = LdtSymmetriser.symmetrise(ldt_orig, isym=isym_target, force=True)
+        for isym_target in [1, 2, 3, 4]:
+            try:
+                # Passe 1 : symétriser
+                ldt_sym1 = LdtSymmetriser.symmetrise(ldt_orig, isym=isym_target, force=True)
 
-            # Écriture / relecture
-            tmp_path = OUTPUT_DIR / f"_tmp_{ldt_path.stem}_isym{isym_target}.ldt"
-            LdtWriter.write(ldt_sym1, tmp_path)
-            ldt_reread = LdtReader.read(tmp_path)
-            tmp_path.unlink()
+                # Écriture / relecture
+                tmp_path = OUTPUT_DIR / f"_tmp_{ldt_path.stem}_isym{isym_target}.ldt"
+                LdtWriter.write(ldt_sym1, tmp_path)
+                ldt_reread = LdtReader.read(tmp_path)
+                tmp_path.unlink()
 
-            # Passe 2 : re-symétriser
-            ldt_sym2 = LdtSymmetriser.symmetrise(ldt_reread, isym=isym_target, force=True)
+                # Passe 2 : re-symétriser
+                ldt_sym2 = LdtSymmetriser.symmetrise(ldt_reread, isym=isym_target, force=True)
 
-            # Comparaison
-            diff = max_abs_diff(ldt_sym1.intensities, ldt_sym2.intensities)
-            identical = diff <= 1e-6
-            status = "OK" if identical else "DIFF > tolérance"
+                # Comparaison
+                diff = max_abs_diff(ldt_sym1.intensities, ldt_sym2.intensities)
+                identical = diff <= 1e-6
+                status = "OK" if identical else "DIFF > tolérance"
 
-            print(f"{ldt_path.stem:<35} {isym_target:>5}  {diff:>12.2e}  {status}")
+                print(f"{ldt_path.stem:<35} {isym_target:>5}  {diff:>12.2e}  {status}")
 
-            if identical:
-                ok += 1
-            else:
+                if identical:
+                    ok += 1
+                else:
+                    errors += 1
+
+            except Exception as ex:
+                print(f"{ldt_path.stem:<35} {isym_target:>5}  {'':>12}  ERREUR: {ex}")
                 errors += 1
 
-        except Exception as ex:
-            print(f"{ldt_path.stem:<35} {isym_target:>5}  {'':>12}  ERREUR: {ex}")
-            errors += 1
+    print("-" * 70)
+    print(f"OK: {ok}  |  Erreurs: {errors}")
 
-# --- Résumé ----------------------------------------------------------------
-print("-" * 70)
-print(f"OK: {ok}  |  Erreurs: {errors}")
+    assert errors == 0, f"{errors} cas non idempotent(s)"
+
+
+if __name__ == "__main__":
+    test_re_symmetrising()
