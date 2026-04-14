@@ -191,6 +191,23 @@ eulumdat-symmetry/
 
 ---
 
+## eulumdat-* ecosystem
+
+> **New to the ecosystem?** [eulumdat-quickstart](https://github.com/123VincentB/eulumdat-quickstart) — a step-by-step guide covering all 8 packages with working examples.
+
+| Package | Description |
+|---|---|
+| [eulumdat-py](https://pypi.org/project/eulumdat-py/) | Read / write EULUMDAT files |
+| **`eulumdat-symmetry`** | **Symmetrise and detect ISYM — this package** |
+| [eulumdat-plot](https://pypi.org/project/eulumdat-plot/) | Polar intensity diagram (SVG/PNG) |
+| [eulumdat-luminance](https://pypi.org/project/eulumdat-luminance/) | Luminance table and polar diagram |
+| [eulumdat-ugr](https://pypi.org/project/eulumdat-ugr/) | UGR catalogue (CIE 117/190) |
+| [eulumdat-analysis](https://pypi.org/project/eulumdat-analysis/) | Beam half-angle, FWHM |
+| [eulumdat-report](https://pypi.org/project/eulumdat-report/) | Full photometric datasheet (HTML/PDF) |
+| [eulumdat-ies](https://pypi.org/project/eulumdat-ies/) | LDT ↔ IES LM-63-2002 conversion |
+
+---
+
 ## Source code
 
 [github.com/123VincentB/eulumdat-symmetry](https://github.com/123VincentB/eulumdat-symmetry)
